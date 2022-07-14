@@ -12,7 +12,10 @@ class PostRepoImpl implements PostRepository {
   final PostRemoteDataSource postRemoteds;
   final PostLocalDataSoutce postLocalds;
   final NetworkInfo network;
-  PostRepoImpl({required this.postRemoteds, required this.postLocalds, required this.network});
+  PostRepoImpl(
+      {required this.postRemoteds,
+      required this.postLocalds,
+      required this.network});
 
   @override
   Future<Either<Failure, List<Post>>> getAllPosts() async {
@@ -24,7 +27,7 @@ class PostRepoImpl implements PostRepository {
       } on ServerException {
         return Left(ServerFailure());
       }
-    }else {
+    } else {
       try {
         final localPosts = await postLocalds.getCashedPosts();
         return Right(localPosts);
@@ -36,58 +39,35 @@ class PostRepoImpl implements PostRepository {
 
   @override
   Future<Either<Failure, Unit>> addPost(Post post) async {
-      final PostModel postModel = PostModel(id: post.id, title: post.title, body: post.body);
-      if(await network.isConnected){
-        try {
-          await postRemoteds.addPost(postModel);
-          return const Right(unit);
-        } on ServerException {
-          return Left(ServerFailure());
-        }
-      }else {
-        return Left(OfflineFailure());
-      }
+    final PostModel postModel =
+        PostModel(id: post.id, title: post.title, body: post.body);
+
+    return await _getMessage(() => postRemoteds.addPost(postModel));
   }
 
   @override
   Future<Either<Failure, Unit>> deletePost(int postId) async {
-    if(await network.isConnected){
-      try {
-        await postRemoteds.deletePost(postId);
-        return const Right(unit);
-      } on ServerException{
-        return Left(ServerFailure());
-      }
-    }else {
-      return Left(OfflineFailure());
-    }
+    return await _getMessage(() => postRemoteds.deletePost(postId));
   }
 
   @override
   Future<Either<Failure, Unit>> updatePost(Post post) async {
-    final PostModel postmodel = PostModel(id: post.id, title: post.title, body: post.title);
-    if(await network.isConnected){
-      try {
-        await postRemoteds.updatePost(postmodel);
-        return const Right(unit);
-      } on ServerException {
-        return Left(ServerFailure());
-      }
-    }else {
-      return Left(OfflineFailure());
-    }
+    final PostModel postmodel =
+        PostModel(id: post.id, title: post.title, body: post.title);
+    return await _getMessage(() => postRemoteds.updatePost(postmodel));
   }
 
-
-  Future<Either<Failure, Unit>> _getMessage(Future<Unit> Function() deleteUpdateOrAddPost) async {
-        if(await network.isConnected){
+  // this function contains the dublicated code implements in the update delete and add
+  Future<Either<Failure, Unit>> _getMessage(
+      Future<Unit> Function() addUpdateOrDelete) async {
+    if (await network.isConnected) {
       try {
-        await deleteUpdateOrAddPost();
+        await addUpdateOrDelete();
         return const Right(unit);
       } on ServerException {
         return Left(ServerFailure());
       }
-    }else {
+    } else {
       return Left(OfflineFailure());
     }
   }
