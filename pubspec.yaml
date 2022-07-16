@@ -13,6 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   # state managment
+  bloc: ^8.0.3
   flutter_bloc: ^8.0.1
   # Service locator (di)
   get_it: ^7.2.0

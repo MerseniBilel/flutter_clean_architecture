@@ -12,7 +12,7 @@ abstract class PostRemoteDataSource {
   Future<Unit> addPost(PostModel post);
 }
 
-const BASE_URL = "https://jsonplaceholder.typicode.com";
+const base_url = "https://jsonplaceholder.typicode.com";
 
 class RemoteDataSourceImpl implements PostRemoteDataSource {
   final http.Client client;
@@ -22,7 +22,7 @@ class RemoteDataSourceImpl implements PostRemoteDataSource {
   @override
   Future<List<PostModel>> getAllPosts() async {
     final response = await client.get(
-      Uri.parse("$BASE_URL/posts/"),
+      Uri.parse("$base_url/posts/"),
       headers: {"Content-Type": "application/json"},
     );
     if (response.statusCode == 200) {
@@ -44,7 +44,7 @@ class RemoteDataSourceImpl implements PostRemoteDataSource {
     };
 
     final response = await client.post(
-      Uri.parse("$BASE_URL/post"),
+      Uri.parse("$base_url/post"),
       body: body,
       headers: {"Content-Type": "application/json"},
     );
@@ -55,7 +55,7 @@ class RemoteDataSourceImpl implements PostRemoteDataSource {
   @override
   Future<Unit> deletePost(int postId) async {
     final response =
-        await client.delete(Uri.parse("$BASE_URL/posts/${postId.toString()}"));
+        await client.delete(Uri.parse("$base_url/posts/${postId.toString()}"));
     return _checkResponse(response);
   }
 
@@ -67,7 +67,7 @@ class RemoteDataSourceImpl implements PostRemoteDataSource {
       "body": post.body,
     };
 
-    final response = await client.patch(Uri.parse("$BASE_URL/posts/$postId"));
+    final response = await client.patch(Uri.parse("$base_url/posts/$postId"));
 
     return _checkResponse(response);
   }
