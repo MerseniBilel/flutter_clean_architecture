@@ -1,4 +1,5 @@
 import 'package:clean_achitecture/features/post/domain/entites/post.dart';
+import 'package:clean_achitecture/features/post/presentation/pages/detail_page.dart';
 import 'package:flutter/material.dart';
 
 class LoadedPosts extends StatelessWidget {
@@ -25,7 +26,16 @@ class LoadedPosts extends StatelessWidget {
               style: const TextStyle(fontSize: 16.0),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 10.0),
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => DetailsPage(
+                    post: onePost,
+                  ),
+                ),
+              );
+            },
           );
         },
         separatorBuilder: (_, index) => const Divider(thickness: 1));

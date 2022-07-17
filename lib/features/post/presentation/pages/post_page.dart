@@ -1,4 +1,5 @@
 import 'package:clean_achitecture/features/post/presentation/bloc/posts/posts_bloc.dart';
+import 'package:clean_achitecture/features/post/presentation/pages/post_add_update_page.dart';
 import 'package:clean_achitecture/features/post/presentation/widgets/custom_indicator.dart';
 import 'package:clean_achitecture/features/post/presentation/widgets/error_display.dart';
 import 'package:clean_achitecture/features/post/presentation/widgets/loaded_posts.dart';
@@ -17,7 +18,9 @@ class PostPage extends StatelessWidget {
       ),
       body: const PostBody(),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const PostAddUpdatePage(isUpdate: false)));
+        },
         child: const Icon(Icons.add),
       ),
     );

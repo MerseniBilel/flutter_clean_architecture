@@ -48,6 +48,14 @@ class AddDeleteUpdatePostBloc
     });
   }
 
+  // observe and print the state
+  // todo : delete in the production mode
+  @override
+  void onTransition(Transition<AddDeleteUpdatePostEvent, AddDeleteUpdatePostState> transition) {
+    super.onTransition(transition);
+    print(transition);
+  }
+
   // this function takes the result of delete, update, add
   // which is a failure or a unit(nothing)
   // if failure so we return error state with the error msg

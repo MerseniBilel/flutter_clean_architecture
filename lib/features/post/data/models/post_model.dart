@@ -2,7 +2,7 @@ import 'package:clean_achitecture/features/post/domain/entites/post.dart';
 
 class PostModel extends Post {
   const PostModel(
-      {required int id, required String title, required String body})
+      {int? id, required String title, required String body})
       : super(id: id, title: title, body: body);
 
   factory PostModel.fromJson(Map<String, dynamic> json) {
