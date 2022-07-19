@@ -33,7 +33,7 @@ class _FormWidgetState extends State<FormWidget> {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       final updatedPost = Post(
-          id: widget.isUpdate ? widget.post!.id : null,
+          id: widget.isUpdate ? widget.post!.id : 0,
           title: _titleController.text,
           body: _bodyController.text);
       if (widget.isUpdate) {
@@ -68,30 +68,12 @@ class _FormWidgetState extends State<FormWidget> {
             minLines: 6,
             maxLines: 6,
           ),
-          Row(
-            mainAxisAlignment: widget.isUpdate
-                ? MainAxisAlignment.spaceEvenly
-                : MainAxisAlignment.center,
-            children: [
-              CusomButton(
-                onPressed: () => validThenUpdateOrAdd(),
-                icon: widget.isUpdate
-                    ? const Icon(Icons.edit)
-                    : const Icon(Icons.add),
-                label: Text(widget.isUpdate ? 'Update' : 'Add'),
-              ),
-              Visibility(
-                visible: widget.isUpdate,
-                child: CusomButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.delete,
-                    color: Colors.red,
-                  ),
-                  label: const Text('delete'),
-                ),
-              )
-            ],
+          CusomButton(
+            onPressed: () => validThenUpdateOrAdd(),
+            icon: widget.isUpdate
+                ? const Icon(Icons.edit)
+                : const Icon(Icons.add),
+            label: Text(widget.isUpdate ? 'Update' : 'Add'),
           )
         ],
       ),

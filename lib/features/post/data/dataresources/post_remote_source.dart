@@ -56,7 +56,7 @@ class RemoteDataSourceImpl implements PostRemoteDataSource {
   @override
   Future<Unit> deletePost(int postId) async {
     final response =
-        await client.delete(Uri.parse(baseUrl + endPont + postId.toString()));
+        await client.delete(Uri.parse('$baseUrl$endPont/$postId'));
     return _checkResponse(response);
   }
 
